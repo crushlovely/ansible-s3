@@ -4,12 +4,5 @@
     module: s3
     aws_access_key: "{{ aws.access_key }}"
     aws_secret_key: "{{ aws.secret_key }}"
-    # bucket: "{{ app_name }}-assets-{{ server_env }}"
     mode: create
   with_items: "{{ aws.s3 }}"
-# - name: Create S3 Env Bucket
-#   s3:
-#     aws_access_key: "{{ ec2_access_key }}"
-#     aws_secret_key: "{{ ec2_secret_key }}"
-#     bucket: "{{ app_name }}-{{ server_env }}"
-#     mode: create
