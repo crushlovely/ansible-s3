@@ -2,10 +2,10 @@
 galaxy_info:
   author: Pablo Castillo
   company: Crush & Lovely
-  description: Provision AWS S3 buckets
+  description: Provision and Configure AWS S3 buckets
   license: MIT
   min_ansible_version: 1.6
   categories:
     - cloud
 dependencies: []
-version: 1.0.0
+version: 2.0.0

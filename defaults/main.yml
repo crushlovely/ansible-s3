@@ -1,9 +1,7 @@
 ---
 app_name: test
 server_env: qa
-aws:
-  access_key: ""
-  secret_key: ""
-  s3:
-    - bucket: "{{ app_name }}-assets-{{ server_env }}"
-    - bucket: "{{ app_name }}-{{ server_env }}"
+access_key: ""
+secret_key: ""
+bucket_name:
+  - ""
