@@ -10,9 +10,7 @@
       "AllowedOrigins": ["*"],
       "AllowedMethods": ["PUT"],
       "MaxAgeSeconds": 3000,
-      "AllowedHeaders": ["Content-Type"],
-      "AllowedHeaders": ["x-amz-acl"],
-      "AllowedHeaders": ["origin"]
+      "AllowedHeaders": ["Content-Type","x-amz-acl","origin"]
     }
   ]
 }

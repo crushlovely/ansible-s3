@@ -2,18 +2,12 @@
 - name: Create S3 Assets Bucket
   local_action:
     module: s3
+    bucket: "{{ item.bucket_name }}"
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
-    bucket: "{{ app_name }}-assets-{{ server_env }}"
     mode: create
-
-- name: Create S3 Env Bucket
-  local_action:
-    module: s3
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
-    bucket: "{{ app_name }}-{{ server_env }}"
-    mode: create
+  with_items:
+    - "{{ aws_s3 }}"
 
 - name: Install AWSCLI
   pip: name=awscli state=present
@@ -28,24 +22,22 @@
   copy: src=cors-config.json dest=/tmp/
 
 - name: Create cors policies
-  command: "aws s3api put-bucket-cors --bucket {{ item }} --cors-configuration file:///tmp/cors-config.json --profile {{ app_name }}"
+  command: "aws s3api put-bucket-cors --bucket {{ item.bucket_name }} --cors-configuration file:///tmp/cors-config.json --profile {{ app_name }}"
   with_items:
-    - "{{ bucket_name }}"
+    - "{{ aws_s3 }}"
 
 - name: create policy config to tmp directory
-  template: src=policy-config.json.j2 dest=/tmp/{{ item }}.json
+  template: src=policy-config.json.j2 dest=/tmp/{{ item.bucket_name }}.json
   with_items:
-    - "{{ bucket_name }}"
+    - "{{ aws_s3 }}"
 
 - name: Create bucket policy json files
-  command: "aws s3api put-bucket-policy --bucket {{ item }} --policy file:///tmp/{{ item }}.json --profile {{ app_name }}"
+  command: "aws s3api put-bucket-policy --bucket {{ item.bucket_name }} --policy file:///tmp/{{ item.bucket_name }}.json --profile {{ app_name }}"
   with_items:
-    - "{{ bucket_name }}"
+    - "{{ aws_s3 }}"
 
 - name: Enable versioning
-  command: "aws s3api put-bucket-versioning --bucket {{ item }} --versioning-configuration MFADelete=Disabled,Status=Enabled --profile {{ app_name }}"
+  command: "aws s3api put-bucket-versioning --bucket {{ item.bucket_name }} --versioning-configuration MFADelete=Disabled,Status=Enabled --profile {{ app_name }}"
   with_items:
-    - "{{ bucket_name }}"
+    - "{{ aws_s3 }}"
   when: server_env == "production"
-
-
