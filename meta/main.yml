@@ -5,7 +5,12 @@ galaxy_info:
   description: Provision and Configure AWS S3 buckets
   license: MIT
   min_ansible_version: 1.6
-  categories:
+  platforms:
+    - name: Ubuntu
+    versions:
+      - all
+  galaxy_tags:
     - cloud
+    - AWS
 dependencies: []
 version: 3.0.0
